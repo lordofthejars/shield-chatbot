@@ -3,6 +3,7 @@ package org.acme;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import dev.langchain4j.model.chat.ChatLanguageModel;
 import io.quarkus.qute.CheckedTemplate;
 import io.quarkus.qute.TemplateInstance;
 import jakarta.inject.Inject;
@@ -29,6 +30,15 @@ public class ChatBotResource {
 
     @Inject
     ObjectMapper mapper;
+
+    @Inject
+    private ChatLanguageModel chatModel;
+
+    @GET
+    @Path("blocking")
+    public String blocking() {
+        return chatModel.generate("When was the nobel prize for economics first awarded?");
+    }
 
     @POST
     @Path("/chat")
